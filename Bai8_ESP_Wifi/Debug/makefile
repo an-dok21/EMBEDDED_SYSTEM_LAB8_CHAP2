@@ -52,6 +52,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 Bai8_ESP_Wifi.list \
 
+OBJCOPY_HEX += \
+Bai8_ESP_Wifi.hex \
+
 
 # All Target
 all: main-build
@@ -60,8 +63,8 @@ all: main-build
 main-build: Bai8_ESP_Wifi.elf secondary-outputs
 
 # Tool invocations
-Bai8_ESP_Wifi.elf Bai8_ESP_Wifi.map: $(OBJS) $(USER_OBJS) /Users/phongtran/Documents/BKIT_ARM4_Bai8_ESP_Wifi/Bai8_ESP_Wifi_2/STM32F407ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Bai8_ESP_Wifi.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/phongtran/Documents/BKIT_ARM4_Bai8_ESP_Wifi/Bai8_ESP_Wifi_2/STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Bai8_ESP_Wifi.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Bai8_ESP_Wifi.elf Bai8_ESP_Wifi.map: $(OBJS) $(USER_OBJS) D:\academy\Universe\HTN\TN\lab2\Lab8_ESP8266\EMBEDDED_SYSTEM_LAB8_CHAP2\Bai8_ESP_Wifi\STM32F407ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Bai8_ESP_Wifi.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\academy\Universe\HTN\TN\lab2\Lab8_ESP8266\EMBEDDED_SYSTEM_LAB8_CHAP2\Bai8_ESP_Wifi\STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Bai8_ESP_Wifi.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,12 +78,17 @@ Bai8_ESP_Wifi.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+Bai8_ESP_Wifi.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "Bai8_ESP_Wifi.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) Bai8_ESP_Wifi.elf Bai8_ESP_Wifi.list Bai8_ESP_Wifi.map default.size.stdout
+	-$(RM) Bai8_ESP_Wifi.elf Bai8_ESP_Wifi.hex Bai8_ESP_Wifi.list Bai8_ESP_Wifi.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

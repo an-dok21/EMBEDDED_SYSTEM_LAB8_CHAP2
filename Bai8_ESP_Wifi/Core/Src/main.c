@@ -120,6 +120,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
  lcd_Clear(BLACK);
+ lcd_ShowStr(10, 50, "ESP DEMO", BLUE, BLACK, 24, 0);
  while (1)
   {
 	  // 50ms task

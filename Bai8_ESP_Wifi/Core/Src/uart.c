@@ -98,7 +98,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 }
 
 uint8_t uart_EspCheck(){
-	if(check_esp == 1) return 1;
+	if(check_esp == 1)
+	{
+		return 1;
+	}
 	return 0;
 }
 

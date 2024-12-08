@@ -3,27 +3,27 @@
 #include "Adafruit_MQTT_Client.h"
 
 //Wifi name
-#define WLAN_SSID ""
+#define WLAN_SSID "VIETTEL_PS9"
 //Wifi password
-#define WLAN_PASS ""
+#define WLAN_PASS "DFPEZR79"
 
 //setup Adafruit
 #define AIO_SERVER "io.adafruit.com"
 #define AIO_SERVERPORT 1883
 //fill your username
-#define AIO_USERNAME ""
+#define AIO_USERNAME "an_do21"
 //fill your key
-#define AIO_KEY ""
+#define AIO_KEY "aio_kkKt28qPrYvqc6NpsNbZduoMceUu"
 
 //setup MQTT
 WiFiClient client;
 Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
 
 //setup publish
-Adafruit_MQTT_Publish light_pub = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/light");
+Adafruit_MQTT_Publish light_pub = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/temperature");
 
 //setup subcribe
-Adafruit_MQTT_Subscribe light_sub = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/light", MQTT_QOS_1);
+Adafruit_MQTT_Subscribe light_sub = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/temperature", MQTT_QOS_1);
 
 int led_counter = 0;
 int led_status = HIGH;
@@ -76,6 +76,7 @@ void loop() {
     printf(val.c_str());
     float temp = val.toFloat();
     if(temp != 0.0){
+      Serial.println(temp); 
       light_pub.publish(temp);
     }
     Serial.readString();
@@ -91,5 +92,7 @@ void loop() {
 
     digitalWrite(2, led_status);
   }
+  Serial.println("HELLO"); 
   delay(1000);
+
 }
