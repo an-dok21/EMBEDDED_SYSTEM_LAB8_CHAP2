@@ -3,17 +3,17 @@
 #include "Adafruit_MQTT_Client.h"
 
 //Wifi name
-#define WLAN_SSID       "VIETTEL_PS9"
+#define WLAN_SSID       ""
 //Wifi password
-#define WLAN_PASS       "DFPEZR79"
+#define WLAN_PASS       ""
 
 //setup Adafruit
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883
 //fill your username                   
-#define AIO_USERNAME    "an_do21"
+#define AIO_USERNAME    ""
 //fill your key
-#define AIO_KEY         "aio_KhVo75YfUXGBeNw3WkJ0kCA2whqZ"
+#define AIO_KEY         ""
 
 //setup MQTT
 WiFiClient client;
