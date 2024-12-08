@@ -119,18 +119,16 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
- lcd_Clear(WHITE);
- lcd_ShowStr(10, 50, "HELLO", GREEN, WHITE, 24, 0);
+ lcd_Clear(BLACK);
  while (1)
   {
 	  // 50ms task
 	  if(flag_timer2 == 1){
 		  flag_timer2 = 0;
 		  button_Scan();
+		  test_Esp();
+		  lightProcess();
 		  test_LedDebug();
-		  lcd_Clear(BLUE);
-		  lcd_ShowStr(30, 50, "TOMMAS", RED, WHITE, 24, 0);
-		  setTimer2(20);
 	  }
 
     /* USER CODE END WHILE */
@@ -190,7 +188,7 @@ void system_init(){
 	  button_init();
 	  lcd_init();
 	  uart_init_esp();
-	  setTimer2(50);
+	  setTimer2(10000);
 }
 
 uint8_t count_led_debug = 0;

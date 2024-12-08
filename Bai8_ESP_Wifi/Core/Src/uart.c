@@ -55,6 +55,7 @@ void uart_Rs232SendNumPercent(uint32_t num)
     uart_Rs232SendString(msg);
     uart_Rs232SendString(".");
     sprintf((void*)msg,"%ld",num%100);
+    sprintf((void*)msg,"%s#",msg);
     uart_Rs232SendString(msg);
 }
 
@@ -66,7 +67,18 @@ void uart_init_esp(){
 void uart_EspSendBytes(uint8_t* bytes, uint16_t size){
 	HAL_UART_Transmit(&huart2, bytes, size, 10);
 }
-
+void uart_EspSendString(uint8_t* str){
+	HAL_UART_Transmit(&huart2, (void*)msg, sprintf((void*)msg,"%s",str), 10);
+}
+void uart_EspSendNumersPercent(uint32_t num)
+{
+	sprintf((void*)msg,"%ld",num/100);
+	uart_EspSendString(msg);
+	uart_EspSendString(".");
+    sprintf((void*)msg,"%ld",num%100);
+    sprintf((void*)msg,"%s#",msg);
+    uart_EspSendString(msg);
+}
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if(huart->Instance == USART1){
 		// rs232 isr

@@ -9,6 +9,7 @@
 uint8_t light_status = 0;
 
 void lightProcess(){
+	sensor_Read();
 	if(button_count[13] == 1){
 		light_status = 1 - light_status;
 		if(light_status == 1){
@@ -22,9 +23,13 @@ void lightProcess(){
 	} else {
 		HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
 	}
+	float temp = sensor_GetTemperature();
+	lcd_ShowFloatNum(10, 100, temp,4, GREEN, BLACK, 16);
+	uint32_t temp_val = temp*100;
+	uart_EspSendNumersPercent(temp_val);
 }
 
 void test_Esp(){
 	if(uart_EspCheck() == 0) uart_EspSendBytes("o", 1);
-	else lcd_ShowStr(10, 50, "ESP Connect", GREEN, WHITE, 24, 0);
+	else lcd_ShowStr(10, 50, "ESP Connect", GREEN, BLACK, 24, 0);
 }

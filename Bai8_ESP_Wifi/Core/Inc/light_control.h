@@ -12,6 +12,7 @@
 #include "uart.h"
 #include "button.h"
 #include "lcd.h"
+#include "sensor.h"
 
 extern uint8_t light_status;
 

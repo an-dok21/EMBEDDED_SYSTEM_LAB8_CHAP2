@@ -3,27 +3,27 @@
 #include "Adafruit_MQTT_Client.h"
 
 //Wifi name
-#define WLAN_SSID       ""
+#define WLAN_SSID ""
 //Wifi password
-#define WLAN_PASS       ""
+#define WLAN_PASS ""
 
 //setup Adafruit
-#define AIO_SERVER      "io.adafruit.com"
-#define AIO_SERVERPORT  1883
-//fill your username                   
-#define AIO_USERNAME    ""
+#define AIO_SERVER "io.adafruit.com"
+#define AIO_SERVERPORT 1883
+//fill your username
+#define AIO_USERNAME ""
 //fill your key
-#define AIO_KEY         ""
+#define AIO_KEY ""
 
 //setup MQTT
 WiFiClient client;
 Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
 
 //setup publish
-Adafruit_MQTT_Publish light_pub = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/led");
+Adafruit_MQTT_Publish light_pub = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/light");
 
 //setup subcribe
-Adafruit_MQTT_Subscribe light_sub = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/led", MQTT_QOS_1);
+Adafruit_MQTT_Subscribe light_sub = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/light", MQTT_QOS_1);
 
 int led_counter = 0;
 int led_status = HIGH;
@@ -70,11 +70,15 @@ void loop() {
   mqtt.processPackets(1);
   
   //read serial
-  if(Serial.available()){
-    int msg = Serial.read();
-    if(msg == 'o') Serial.print('O');
-    else if(msg == 'a') light_pub.publish(0);
-    else if(msg == 'A') light_pub.publish(1);
+  if(Serial.available() > 0){
+    String val = Serial.readStringUntil('#');
+
+    printf(val.c_str());
+    float temp = val.toFloat();
+    if(temp != 0.0){
+      light_pub.publish(temp);
+    }
+    Serial.readString();
   }
 
   led_counter++;
@@ -87,5 +91,5 @@ void loop() {
 
     digitalWrite(2, led_status);
   }
-  delay(10);
+  delay(1000);
 }

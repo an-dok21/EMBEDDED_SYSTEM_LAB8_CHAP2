@@ -30,6 +30,7 @@ void uart_Rs232SendNumPercent(uint32_t num);
 
 void uart_init_esp();
 void uart_EspSendBytes(uint8_t* bytes, uint16_t size);
-
+void uart_EspSendString(uint8_t* str);
+void uart_EspSendNumersPercent(uint32_t num);
 #endif /* INC_UART_H_ */
 
